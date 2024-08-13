@@ -142,6 +142,9 @@
   ```
 + 상태코드 :
   ```
-'200 OK' 데이터 목록 조회 성공
-'404 Not Found' 사용자를 찾을수 없음
+  '200 OK' 데이터 목록 조회 성공
+  '404 Not Found' 사용자를 찾을수 없음
   ```
+***
+ERD 다이어그램
+![image](https://github.com/user-attachments/assets/74257567-b2a0-4370-b483-f84a9795fdd8)
