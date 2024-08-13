@@ -147,6 +147,7 @@
   ```
 ***
 ERD 다이어그램
-![image](https://github.com/user-attachments/assets/635b6528-b628-404f-af78-06d2b13c546f)
+![image](https://github.com/user-attachments/assets/b1f1dc44-f06d-461b-9b4e-a4bb9acd976c)
+
 
 
