@@ -50,14 +50,19 @@ public class ToDoListService {
             throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다.");
         }
     }
-    public int deleteToDoList(int id) {
+    public int deleteToDoList(int id,String password) {
 
         ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList != null) {
+            toDoList=toDoListRepository.passwordVerify(id,password);
+            if(toDoList !=null) {
 
-            toDoListRepository.delete(id);
-
-            return id;
+                toDoListRepository.delete(id);
+                return id;
+            }
+            else {
+                throw new IllegalArgumentException("비밀 번호가 틀렸습니다.");
+            }
         } else {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }

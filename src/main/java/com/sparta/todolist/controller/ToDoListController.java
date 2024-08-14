@@ -42,7 +42,7 @@ public class ToDoListController {
     }
 
     @DeleteMapping("/todolist/{id}")
-    public int deleteToDoList(@PathVariable int id) {
-        return toDoListService.deleteToDoList(id);
+    public int deleteToDoList(@PathVariable int id,@RequestParam String password) {
+        return toDoListService.deleteToDoList(id,password);
     }
 }
