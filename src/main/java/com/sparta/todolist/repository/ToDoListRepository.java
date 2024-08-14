@@ -9,7 +9,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
 public class ToDoListRepository {
@@ -23,15 +22,14 @@ public class ToDoListRepository {
     public ToDoList save(ToDoList toDoList) {
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        String sql = "INSERT INTO todolist (manager, todo, creationDate,modifyDate,password) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO todo (toDoListContents, managerName, creationDate, modifiedDate, password) VALUES (?,?,?,?,?)";
         jdbcTemplate.update(con -> {
             PreparedStatement preparedStatement = con.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, toDoList.getManagerName());
-            preparedStatement.setString(2, toDoList.getToDoListContents());
-            preparedStatement.setDate(3, Date.valueOf(toDoList.getCreationDate()));
-            preparedStatement.setDate(4, Date.valueOf(toDoList.getModifyDate()));
+            preparedStatement.setString(1, toDoList.getToDoListContents());
+            preparedStatement.setString(2, toDoList.getManagerName());
+            preparedStatement.setTimestamp(3,toDoList.getCreationDate());
+            preparedStatement.setTimestamp(4, toDoList.getModifiedDate());
             preparedStatement.setString(5, toDoList.getPassword());
             return preparedStatement;
         }, keyHolder);
@@ -45,39 +43,39 @@ public class ToDoListRepository {
 
     public List<ToDoListResponseDto> findAll() {
         //DB조회
-        String sql = "SELECT * FROM todolist";
+        String sql = "SELECT * FROM todo";
 
         return jdbcTemplate.query(sql,new RowMapper<ToDoListResponseDto>() {
             @Override
             public ToDoListResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 
                 int id = rs.getInt("id");
-                String managerName = rs.getString("manager");
-                String todo = rs.getString("todo");
-                LocalDate creationDate = rs.getDate("creationDate").toLocalDate();
-                LocalDate modifyDate = rs.getDate("modifyDate").toLocalDate();
+                String managerName = rs.getString("managerName");
+                String toDoListContents = rs.getString("toDoListContents");
+                Timestamp creationDate = rs.getTimestamp("creationDate");
+                Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
                 String password = rs.getString("password");
-                return new ToDoListResponseDto(id,managerName,todo,creationDate,modifyDate,password);
+                return new ToDoListResponseDto(id,managerName,toDoListContents,creationDate,modifiedDate,password);
             }
         });
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM TODOLIST WHERE id = ?";
+        String sql = "DELETE FROM todo WHERE id = ?";
         jdbcTemplate.update(sql,id);
     }
 
     public ToDoList findById(int id) {
-        String sql = "SELECT * FROM TODOLIST WHERE id = ?";
+        String sql = "SELECT * FROM todo WHERE id = ?";
 
         return jdbcTemplate.query(sql,resultSet -> {
             if(resultSet.next()) {
                 ToDoList toDoList = new ToDoList();
                 toDoList.setId(resultSet.getInt("id"));
-                toDoList.setManagerName(resultSet.getString("manager"));
+                toDoList.setManagerName(resultSet.getString("managerName"));
                 toDoList.setToDoListContents(resultSet.getString("toDoListContents"));
-                toDoList.setCreationDate(resultSet.getDate("creationDate").toLocalDate());
-                toDoList.setModifyDate(resultSet.getDate("modifyDate").toLocalDate());
+                toDoList.setCreationDate(resultSet.getTimestamp("creationDate"));
+                toDoList.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
                 return toDoList;
             } else {
                 return null;
@@ -86,8 +84,8 @@ public class ToDoListRepository {
     }
 
     public void update(int id, ToDoListRequestDto requestDto) {
-        String sql = "UPDATE todolist SET manager = ?,toDoListContents = ?,modifyDate = ? WHERE id =?";
-        jdbcTemplate.update(sql,requestDto.getManagerName(),requestDto.getToDoListContents(),requestDto.getModifyDate());
+        String sql = "UPDATE todolist SET managerName = ?,toDoListContents = ?,modifiedDate = ? WHERE id =?";
+        jdbcTemplate.update(sql,requestDto.getManagerName(),requestDto.getToDoListContents(),requestDto.getModifiedDate());
     }
 
 }
