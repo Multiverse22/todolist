@@ -9,8 +9,8 @@
   ```
   {
     ”id”:03,
-    "manager”:”신창섭",
-    ”todo”:”정상화”,
+    "managerName”:”신창섭",
+    ”toDoListContents”:”정상화”,
     ”creationdate”:2024-08-13 12:34:56,
     ”modifydate”:2024-08-13 12:34:56
   }
@@ -31,8 +31,8 @@
 + Request :
   ```
   {
-    "manager”:”신창섭",
-    ”todo”:”정상화”,
+    "managerName”:”신창섭",
+    ”toDoListContents”:”정상화”,
     ”creationdate”:2024-08-13 12:34:56,
     ”modifydate”:2024-08-13 12:34:56,
     "password":"q1w2e3"
@@ -43,8 +43,8 @@
   ```
   {
     ”id”:03,
-    "manager”:”신창섭",
-    ”todo”:”정상화”,
+    "managerName”:”신창섭",
+    ”toDoListContents”:”정상화”,
     ”creationdate”:2024-08-13 12:34:56,
     ”modifydate”:2024-08-13 12:34:56,
     "password”:”q1w2e3"
@@ -66,8 +66,8 @@
 + Request :
   ```
   {
-    "manager":"이길환",
-    ”todo":"넷플보기”,
+    "managerName":"이길환",
+    ”toDoListContents":"넷플보기”,
     "password":"q1w2e3"
   }
   ```
@@ -76,8 +76,8 @@
   ```
   {
     "id":03,
-    "manager":"이길환",
-    ”todo":"넷플보기”,
+    "managerName":"이길환",
+    ”toDoListContents":"넷플보기”,
     "modifydate":2024-08-09 11:22:33
   }
   ```
@@ -120,25 +120,25 @@
 
 + Response :
   ```
-  {
-  "todolist":[
+ [
+ 
     {
     ”id”:03,
-    "manager”:”김갑환",
-    ”todo”:”장보기”,
+    "managerName”:”김갑환",
+    ”toDoListContents”:”장보기”,
     ”creationdate”:2024-08-12 12:34:56,
     ”modifydate”:2024-08-12 12:34:56,
     },
     {
     ”id”:04,
-    "manager”:”크리스",
-    ”todo”:”트위터업데이트”,
+    "managerName”:”크리스",
+    ”toDoListContents”:”트위터업데이트”,
     ”creationdate”:2024-08-13 12:34:56,
     ”modifydate”:2024-08-13 12:34:56,
     }
-  ],
-  "total":2
-  }
+    
+  ]
+  ```
   ```
 + 상태코드 :
   ```
