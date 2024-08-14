@@ -7,10 +7,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.List;
 
+@Repository
 public class ToDoListRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -54,8 +56,7 @@ public class ToDoListRepository {
                 String toDoListContents = rs.getString("toDoListContents");
                 Timestamp creationDate = rs.getTimestamp("creationDate");
                 Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
-                String password = rs.getString("password");
-                return new ToDoListResponseDto(id,managerName,toDoListContents,creationDate,modifiedDate,password);
+                return new ToDoListResponseDto(id,managerName,toDoListContents,creationDate,modifiedDate);
             }
         });
     }

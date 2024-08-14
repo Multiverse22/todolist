@@ -26,12 +26,11 @@ public class ToDoListResponseDto {
         this.modifiedDate = toDoList.getModifiedDate();
     }
 
-    public ToDoListResponseDto(int id,String managerName, String toDoListContents, Timestamp creationDate, Timestamp modifiedDate, String password) {
+    public ToDoListResponseDto(int id,String managerName, String toDoListContents, Timestamp creationDate, Timestamp modifiedDate) {
         this.id=id;
         this.managerName=managerName;
         this.toDoListContents=toDoListContents;
         this.creationDate=creationDate;
         this.modifiedDate=modifiedDate;
-
     }
 }

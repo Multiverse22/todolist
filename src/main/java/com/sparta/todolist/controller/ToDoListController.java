@@ -5,7 +5,6 @@ import com.sparta.todolist.dto.ToDoListRequestDto;
 import com.sparta.todolist.dto.ToDoListResponseDto;
 import com.sparta.todolist.service.ToDoListService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
@@ -13,36 +12,37 @@ import java.util.List;
 @RequestMapping("/api")
 public class ToDoListController {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final ToDoListService toDoListService;
 
-    public ToDoListController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ToDoListController(ToDoListService toDoListService) {
+        this.toDoListService = toDoListService;
     }
 
     @PostMapping("/todolist")
     public ToDoListResponseDto createToDoList(@RequestBody ToDoListRequestDto requestDto) {
         //TodoList작성하는 메서드 객체로 받았기 때문에 @RequestBody 애너테이션 필요 리턴은 ResponseDto로 리턴
-        ToDoListService toDoListService = new ToDoListService(jdbcTemplate);
         return toDoListService.createToDoList(requestDto);
 
+    }
+    @GetMapping("/todolist/{id}")
+    public ToDoListResponseDto getToDoList(@PathVariable int id) {
+        //@PathVariable 애너테이션을 사용하면 /todolist/(id값) 이런식으로 url을 작성해야한다.
+        return toDoListService.getToDoList(id);
     }
 
     @GetMapping("/todolist")
     public List<ToDoListResponseDto> getAllToDoLists() {
-        ToDoListService toDoListService = new ToDoListService(jdbcTemplate);
         return toDoListService.getAllToDoList();
     }
 
 
     @PutMapping("/todolist/{id}")
     public int updateToDoList(@PathVariable int id, @RequestBody ToDoListRequestDto requestDto) {
-        ToDoListService toDoListService = new ToDoListService(jdbcTemplate);
         return toDoListService.updateToDoList(id, requestDto);
     }
 
     @DeleteMapping("/todolist/{id}")
     public int deleteToDoList(@PathVariable int id) {
-        ToDoListService toDoListService = new ToDoListService(jdbcTemplate);
         return toDoListService.deleteToDoList(id);
     }
 }

@@ -4,23 +4,23 @@ import com.sparta.todolist.dto.ToDoListRequestDto;
 import com.sparta.todolist.dto.ToDoListResponseDto;
 import com.sparta.todolist.entity.ToDoList;
 import com.sparta.todolist.repository.ToDoListRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ToDoListService {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final ToDoListRepository toDoListRepository;
 
-    public ToDoListService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ToDoListService( ToDoListRepository toDoListRepository) {
+        this.toDoListRepository = toDoListRepository;
     }
 
     public ToDoListResponseDto createToDoList(ToDoListRequestDto requestDto) {
         //requestDto -> Entity
         ToDoList toDoList = new ToDoList(requestDto);
 
-        ToDoListRepository toDoListRepository = new ToDoListRepository(jdbcTemplate);
         ToDoList savedToDoList = toDoListRepository.save(toDoList);
 
         ToDoListResponseDto responseDto = new ToDoListResponseDto(savedToDoList);
@@ -30,12 +30,10 @@ public class ToDoListService {
 
     public List<ToDoListResponseDto> getAllToDoList() {
         //모든할일 가져오기
-        ToDoListRepository toDoListRepository = new ToDoListRepository(jdbcTemplate);
         return toDoListRepository.findAll();
     }
 
     public int updateToDoList(int id, ToDoListRequestDto requestDto) {
-        ToDoListRepository toDoListRepository = new ToDoListRepository(jdbcTemplate);
         ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList != null) {
 
@@ -47,7 +45,6 @@ public class ToDoListService {
         }
     }
     public int deleteToDoList(int id) {
-        ToDoListRepository toDoListRepository = new ToDoListRepository(jdbcTemplate);
 
         ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList != null) {
@@ -58,5 +55,10 @@ public class ToDoListService {
         } else {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
+    }
+    public ToDoListResponseDto getToDoList(int id) {
+        ToDoList toDoList = toDoListRepository.findById(id);
+        ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);
+        return responseDto;
     }
 }
