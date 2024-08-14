@@ -10,10 +10,15 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public class ToDoListRepository {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -84,9 +89,42 @@ public class ToDoListRepository {
         },id);
     }
 
-    public void update(int id, ToDoListRequestDto requestDto) {
-        String sql = "UPDATE todolist SET managerName = ?,toDoListContents = ?,modifiedDate = ? WHERE id =?";
-        jdbcTemplate.update(sql,requestDto.getManagerName(),requestDto.getToDoListContents(),requestDto.getModifiedDate());
-    }
+    public ToDoList update(int id,String password, ToDoListRequestDto requestDto) {
+        Date now=Calendar.getInstance().getTime();
+        String formatedNow=formatter.format(now);
+        String sql = "UPDATE todo SET managerName = ?,toDoListContents = ?,modifiedDate = ? WHERE id =?";
+        jdbcTemplate.update(sql,requestDto.getManagerName(),requestDto.getToDoListContents(),formatedNow,id);
 
+        sql="SELECT * FROM todo WHERE id = ?";
+        return jdbcTemplate.query(sql,resultSet -> {
+            if(resultSet.next()) {
+                ToDoList toDoList = new ToDoList();
+                toDoList.setId(resultSet.getInt("id"));
+                toDoList.setManagerName(resultSet.getString("managerName"));
+                toDoList.setToDoListContents(resultSet.getString("toDoListContents"));
+                toDoList.setCreationDate(resultSet.getTimestamp("creationDate"));
+                toDoList.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                return toDoList;
+            } else {
+                return null;
+            }
+        },id);
+    }
+    public ToDoList passwordVerify(int id,String password) {
+        String sql="SELECT * FROM todo WHERE id = ? and password = ?";
+
+        return jdbcTemplate.query(sql,resultSet -> {
+            if(resultSet.next()) {
+                ToDoList toDoList = new ToDoList();
+                toDoList.setId(resultSet.getInt("id"));
+                toDoList.setManagerName(resultSet.getString("managerName"));
+                toDoList.setToDoListContents(resultSet.getString("toDoListContents"));
+                toDoList.setCreationDate(resultSet.getTimestamp("creationDate"));
+                toDoList.setModifiedDate(resultSet.getTimestamp("modifiedDate"));
+                return toDoList;
+            } else {
+                return null;
+            }
+        },id,password);
+    }
 }

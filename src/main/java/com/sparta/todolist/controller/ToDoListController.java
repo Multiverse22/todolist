@@ -37,8 +37,8 @@ public class ToDoListController {
 
 
     @PutMapping("/todolist/{id}")
-    public int updateToDoList(@PathVariable int id, @RequestBody ToDoListRequestDto requestDto) {
-        return toDoListService.updateToDoList(id, requestDto);
+    public ToDoListResponseDto updateToDoList(@PathVariable int id,@RequestParam String password, @RequestBody ToDoListRequestDto requestDto) {
+        return toDoListService.updateToDoList(id, password,requestDto);
     }
 
     @DeleteMapping("/todolist/{id}")

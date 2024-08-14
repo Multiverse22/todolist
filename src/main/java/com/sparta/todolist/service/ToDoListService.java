@@ -33,15 +33,21 @@ public class ToDoListService {
         return toDoListRepository.findAll();
     }
 
-    public int updateToDoList(int id, ToDoListRequestDto requestDto) {
+    public ToDoListResponseDto updateToDoList(int id,String password, ToDoListRequestDto requestDto) {
         ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList != null) {
+            toDoList=toDoListRepository.passwordVerify(id,password);
+            if(toDoList != null) {
 
-            toDoListRepository.update(id,requestDto);
-
-            return id;
+                ToDoList todoList = toDoListRepository.update(id, password, requestDto);
+                ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);
+                return responseDto;
+            }
+            else {
+                throw new IllegalArgumentException("비밀 번호가 틀렸습니다.");
+            }
         } else {
-            throw new IllegalArgumentException("선택한 일정한 존재하지 않습니다.");
+            throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다.");
         }
     }
     public int deleteToDoList(int id) {
