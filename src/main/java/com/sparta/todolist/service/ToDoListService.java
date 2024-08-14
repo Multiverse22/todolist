@@ -6,6 +6,7 @@ import com.sparta.todolist.entity.ToDoList;
 import com.sparta.todolist.repository.ToDoListRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -31,6 +32,18 @@ public class ToDoListService {
     public List<ToDoListResponseDto> getAllToDoList() {
         //모든할일 가져오기
         return toDoListRepository.findAll();
+    }
+    public List<ToDoListResponseDto> getAllByValue(int value, String managerName, Timestamp modifiedDate) {
+        //value ==0 매니저이름으로 조회 1 = 수정일로 조회 2 = 두조건으로 조회
+        if(value==0) {
+            return toDoListRepository.findByManagerName(managerName);
+        } else if (value == 1) {
+            return toDoListRepository.findByModifiedDate(modifiedDate);
+        } else if (value == 2) {
+            return toDoListRepository.findByModifiedDateAndManagerName(modifiedDate, managerName);
+        } else {
+            throw new IllegalArgumentException("Invalid value");
+        }
     }
 
     public ToDoListResponseDto updateToDoList(int id,String password, ToDoListRequestDto requestDto) {

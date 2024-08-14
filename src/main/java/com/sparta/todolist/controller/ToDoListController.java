@@ -6,6 +6,7 @@ import com.sparta.todolist.dto.ToDoListResponseDto;
 import com.sparta.todolist.service.ToDoListService;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -44,5 +45,9 @@ public class ToDoListController {
     @DeleteMapping("/todolist/{id}")
     public int deleteToDoList(@PathVariable int id,@RequestParam String password) {
         return toDoListService.deleteToDoList(id,password);
+    }
+    @GetMapping ("/todolist/inquiry/{value}")
+    public List<ToDoListResponseDto> getToDoListsByValue(@PathVariable int value, @RequestParam(required = false) String managerName, @RequestParam(required = false) Timestamp modifiedDate) {
+        return toDoListService.getAllByValue(value,managerName,modifiedDate);
     }
 }

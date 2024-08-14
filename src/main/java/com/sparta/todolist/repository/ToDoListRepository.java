@@ -48,6 +48,52 @@ public class ToDoListRepository {
     }
 
 
+    public List<ToDoListResponseDto> findByManagerName(String managerName) {
+        String sql="select * from todo where managerName=? order by managerName asc";
+
+        return jdbcTemplate.query(sql, new Object[]{managerName},new RowMapper<ToDoListResponseDto>() {
+            @Override
+            public ToDoListResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int id=rs.getInt("id");
+                String toDoListContents=rs.getString("toDoListContents");
+                String managerName=rs.getString("managerName");
+                Timestamp creationDate=rs.getTimestamp("creationDate");
+                Timestamp modifiedDate=rs.getTimestamp("modifiedDate");
+                return new ToDoListResponseDto(id,toDoListContents,managerName,creationDate,modifiedDate);
+            }
+        });
+    }
+    public List<ToDoListResponseDto> findByModifiedDate(Timestamp modifiedDate) {
+        String sql="select * from todo where DATE(modifiedDate) = ? order by modifiedDate desc";
+
+        return jdbcTemplate.query(sql, new Object[]{modifiedDate}, new RowMapper<ToDoListResponseDto>() {
+            @Override
+            public ToDoListResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int id = rs.getInt("id");
+                String managerName = rs.getString("managerName");
+                String toDoListContents = rs.getString("toDoListContents");
+                Timestamp creationDate = rs.getTimestamp("creationDate");
+                Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
+                return new ToDoListResponseDto(id, managerName, toDoListContents, creationDate, modifiedDate);
+            }
+        });
+    }
+    public List<ToDoListResponseDto> findByModifiedDateAndManagerName(Timestamp modifiedDate,String managerName) {
+        String sql="select * from todo where DATE(modifiedDate) = ? and managerName = ? order by modifiedDate desc";
+
+        return jdbcTemplate.query(sql, new Object[]{modifiedDate,managerName}, new RowMapper<ToDoListResponseDto>() {
+            @Override
+            public ToDoListResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+                int id = rs.getInt("id");
+                String managerName = rs.getString("managerName");
+                String toDoListContents = rs.getString("toDoListContents");
+                Timestamp creationDate = rs.getTimestamp("creationDate");
+                Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
+                return new ToDoListResponseDto(id, managerName, toDoListContents, creationDate, modifiedDate);
+            }
+        });
+    }
+
     public List<ToDoListResponseDto> findAll() {
         //DB조회
         String sql = "SELECT * FROM todo";
