@@ -46,8 +46,8 @@ public class ToDoListService {
         }
     }
 
-    public ToDoListResponseDto updateToDoList(ToDoListRequestDto requestDto) {
-        ToDoList toDoList = toDoListRepository.findById(requestDto);
+    public ToDoListResponseDto updateToDoList(int id,ToDoListRequestDto requestDto) {
+        ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList != null) {
             toDoList=toDoListRepository.passwordVerify(requestDto);
             if(toDoList != null) {
@@ -65,7 +65,7 @@ public class ToDoListService {
     }
     public int deleteToDoList(int id,ToDoListRequestDto requestDto) {
 
-        ToDoList toDoList = toDoListRepository.findById(requestDto);
+        ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList != null) {
             toDoList=toDoListRepository.passwordVerify(requestDto);
             if(toDoList !=null) {
@@ -80,9 +80,14 @@ public class ToDoListService {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
     }
-    public ToDoListResponseDto getToDoList(ToDoListRequestDto requestDto) {
-        ToDoList toDoList = toDoListRepository.findById(requestDto);
-        ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);
-        return responseDto;
+    public ToDoListResponseDto getToDoList(int id,ToDoListRequestDto requestDto) {
+        ToDoList toDoList = toDoListRepository.findById(id);
+        if(toDoList !=null) {
+            ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);
+            return responseDto;
+        }
+        else {
+            throw new IllegalArgumentException("해당 id의 메모는 존재하지않습니다.");
+        }
     }
 }

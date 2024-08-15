@@ -26,9 +26,9 @@ public class ToDoListController {
 
     }
     @GetMapping("/todolist/{id}")
-    public ToDoListResponseDto getToDoList(ToDoListRequestDto requestDto) {
+    public ToDoListResponseDto getToDoList(@PathVariable int id, ToDoListRequestDto requestDto) {
         //@PathVariable 애너테이션을 사용하면 /todolist/(id값) 이런식으로 url을 작성해야한다.
-        return toDoListService.getToDoList(requestDto);
+        return toDoListService.getToDoList(id,requestDto);
     }
 
     @GetMapping("/todolist")
@@ -37,9 +37,9 @@ public class ToDoListController {
     }
 
 
-    @PutMapping("/todolist")
-    public ToDoListResponseDto updateToDoList( @RequestBody ToDoListRequestDto requestDto) {
-        return toDoListService.updateToDoList(requestDto);
+    @PutMapping("/todolist/{id}")
+    public ToDoListResponseDto updateToDoList(@PathVariable int id, @RequestBody ToDoListRequestDto requestDto) {
+        return toDoListService.updateToDoList(id,requestDto);
     }
 
     @DeleteMapping("/todolist/{id}")

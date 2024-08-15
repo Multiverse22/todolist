@@ -121,8 +121,7 @@ public class ToDoListRepository {
         jdbcTemplate.update(sql,id);
     }
 
-    public ToDoList findById(ToDoListRequestDto requestDto) {
-        int id = requestDto.getId();
+    public ToDoList findById(int id) {
         String sql = "SELECT * FROM todo WHERE id = ?";
 
         return jdbcTemplate.query(sql,resultSet -> {
