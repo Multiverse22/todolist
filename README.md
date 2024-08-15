@@ -2,8 +2,8 @@
 
 + API 명 : 단일 일정 조회
 + HTTP METHOD : GET
-+ URL : /todolist/{id}
-+ Request : 요청 파라미터 = Id
++ URL : api/todolist/{id}
++ Request : @Pathvariable = id값
 
 + Response :
   ```
@@ -11,8 +11,9 @@
     ”id”:03,
     "managerName”:”신창섭",
     ”toDoListContents”:”정상화”,
-    ”creationdate”:2024-08-13 12:34:56,
-    ”modifydate”:2024-08-13 12:34:56
+    ”creationDate”:2024-08-13 12:34:56,
+    ”modifiedDate”:2024-08-13 12:34:56,
+    "password":null
   }
   ```
 + 상태코드 :
@@ -27,14 +28,14 @@
 
 + API 명 : 일정 생성
 + HTTP METHOD : POST
-+ URL : /todolist
++ URL : api/todolist
 + Request :
   ```
   {
     "managerName”:”신창섭",
     ”toDoListContents”:”정상화”,
     ”creationdate”:2024-08-13 12:34:56,
-    ”modifydate”:2024-08-13 12:34:56,
+    ”modifiedDate”:2024-08-13 12:34:56,
     "password":"q1w2e3"
   }
   ```
@@ -46,8 +47,8 @@
     "managerName”:”신창섭",
     ”toDoListContents”:”정상화”,
     ”creationdate”:2024-08-13 12:34:56,
-    ”modifydate”:2024-08-13 12:34:56,
-    "password”:”q1w2e3"
+    ”modifiedDate”:2024-08-13 12:34:56,
+    "password”:null
   }
   ```
 + 상태코드 :
@@ -62,23 +63,28 @@
 
 + API 명 : 일정 업데이트
 + HTTP METHOD : PUT
-+ URL : /todolist/{id}
++ URL : api/todolist/{id}
 + Request :
   ```
   {
-    "managerName":"이길환",
-    ”toDoListContents":"넷플보기”,
-    "password":"q1w2e3"
+    "id":"10",
+    "managerName": "김갑환",
+    "toDoListContents": "집에있기",
+    "creationDate": "1999-06-20 11:11:11",
+    "modifiedDate": "1999-06-20 11:11:11",
+    "password": "qqq"
   }
   ```
 
 + Response :
   ```
   {
-    "id":03,
-    "managerName":"이길환",
-    ”toDoListContents":"넷플보기”,
-    "modifydate":2024-08-09 11:22:33
+    "id": 10,
+    "managerName": "김갑환",
+    "toDoListContents": "집에있기",
+    "creationDate": "1999-06-20 11:11:11",
+    "modifiedDate": "2024-08-15 17:05:31",
+    "password": null
   }
   ```
 + 상태코드 :
@@ -95,12 +101,12 @@
 + API 명 : 일정 삭제
 + HTTP METHOD : DELETE
 + URL : /todolist/{id}
-+ Request : 요청 파라미터 = Id
++ Request : @PathVariable id,RequestDto
 
 + Response :
   ```
   {
-  "message":"성공적으로 삭제 되었습니다."
+   id값을 반환
   }
   ```
 + 상태코드 :
@@ -115,29 +121,30 @@
 
 + API 명 : 일정 목록 조회
 + HTTP METHOD : GET
-+ URL : /todolist
-+ Request : 요청 파라미터 수정일 or 담당자명 한가지를 충족하는 경우, 한가지도 충족하지 않는 경우, 둘 다 충족하는 경우가 존재합니다. 수정일은 내림차순으로 정렬합니다.
++ URL : /todolist/inquiry/{value}
++ Request :@PathVariable int value, @RequestParam(required = false) String managerName, @RequestParam(required = false) Timestamp modifiedDate
++
++ 요청 파라미터 수정일 or 담당자명 한가지를 충족하는 경우, 한가지도 충족하지 않는 경우, 둘 다 충족하는 경우가 존재합니다. 수정일은 내림차순으로 정렬합니다.
 
 + Response :
   ```
- [
- 
+  예 http://localhost:8080/api/todolist/inquiry/0?managerName=김길환
     {
-    ”id”:03,
-    "managerName”:”김갑환",
-    ”toDoListContents”:”장보기”,
-    ”creationdate”:2024-08-12 12:34:56,
-    ”modifydate”:2024-08-12 12:34:56,
+        "id": 7,
+        "managerName": "집에서쉬기",
+        "toDoListContents": "김길환",
+        "creationDate": "1999-06-20 11:11:11",
+        "modifiedDate": "1999-06-20 11:11:11",
+        "password": null
     },
     {
-    ”id”:04,
-    "managerName”:”크리스",
-    ”toDoListContents”:”트위터업데이트”,
-    ”creationdate”:2024-08-13 12:34:56,
-    ”modifydate”:2024-08-13 12:34:56,
+        "id": 9,
+        "managerName": "집가고싶다",
+        "toDoListContents": "김길환",
+        "creationDate": "1999-06-20 11:11:11",
+        "modifiedDate": "1999-06-20 11:11:11",
+        "password": null
     }
-    
-  ]
   ```
   ```
 + 상태코드 :
