@@ -17,6 +17,7 @@ public class ToDoListResponseDto {
     private Timestamp creationDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp modifiedDate;
+    private String password;
 
     public ToDoListResponseDto(ToDoList toDoList) {
         this.id = toDoList.getId();
@@ -24,13 +25,15 @@ public class ToDoListResponseDto {
         this.toDoListContents = toDoList.getToDoListContents();
         this.creationDate = toDoList.getCreationDate();
         this.modifiedDate = toDoList.getModifiedDate();
+        this.password = toDoList.getPassword();
     }
 
-    public ToDoListResponseDto(int id,String managerName, String toDoListContents, Timestamp creationDate, Timestamp modifiedDate) {
+    public ToDoListResponseDto(int id,String managerName, String toDoListContents, Timestamp creationDate, Timestamp modifiedDate, String password) {
         this.id=id;
         this.managerName=managerName;
         this.toDoListContents=toDoListContents;
         this.creationDate=creationDate;
         this.modifiedDate=modifiedDate;
+        this.password=password;
     }
 }

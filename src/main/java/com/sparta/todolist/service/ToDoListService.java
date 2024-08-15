@@ -46,14 +46,14 @@ public class ToDoListService {
         }
     }
 
-    public ToDoListResponseDto updateToDoList(int id,String password, ToDoListRequestDto requestDto) {
-        ToDoList toDoList = toDoListRepository.findById(id);
+    public ToDoListResponseDto updateToDoList(ToDoListRequestDto requestDto) {
+        ToDoList toDoList = toDoListRepository.findById(requestDto);
         if(toDoList != null) {
-            toDoList=toDoListRepository.passwordVerify(id,password);
+            toDoList=toDoListRepository.passwordVerify(requestDto);
             if(toDoList != null) {
 
-                ToDoList todoList = toDoListRepository.update(id, password, requestDto);
-                ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);
+                ToDoList todoList = toDoListRepository.update(requestDto);
+                ToDoListResponseDto responseDto = new ToDoListResponseDto(todoList);
                 return responseDto;
             }
             else {
@@ -63,11 +63,11 @@ public class ToDoListService {
             throw new IllegalArgumentException("선택한 일정은 존재하지 않습니다.");
         }
     }
-    public int deleteToDoList(int id,String password) {
+    public int deleteToDoList(int id,ToDoListRequestDto requestDto) {
 
-        ToDoList toDoList = toDoListRepository.findById(id);
+        ToDoList toDoList = toDoListRepository.findById(requestDto);
         if(toDoList != null) {
-            toDoList=toDoListRepository.passwordVerify(id,password);
+            toDoList=toDoListRepository.passwordVerify(requestDto);
             if(toDoList !=null) {
 
                 toDoListRepository.delete(id);
@@ -80,8 +80,8 @@ public class ToDoListService {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
     }
-    public ToDoListResponseDto getToDoList(int id) {
-        ToDoList toDoList = toDoListRepository.findById(id);
+    public ToDoListResponseDto getToDoList(ToDoListRequestDto requestDto) {
+        ToDoList toDoList = toDoListRepository.findById(requestDto);
         ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);
         return responseDto;
     }

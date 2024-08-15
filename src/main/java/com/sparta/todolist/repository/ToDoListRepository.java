@@ -59,7 +59,8 @@ public class ToDoListRepository {
                 String managerName=rs.getString("managerName");
                 Timestamp creationDate=rs.getTimestamp("creationDate");
                 Timestamp modifiedDate=rs.getTimestamp("modifiedDate");
-                return new ToDoListResponseDto(id,toDoListContents,managerName,creationDate,modifiedDate);
+                String password = rs.getString("password");
+                return new ToDoListResponseDto(id,toDoListContents,managerName,creationDate,modifiedDate,null);
             }
         });
     }
@@ -74,7 +75,8 @@ public class ToDoListRepository {
                 String toDoListContents = rs.getString("toDoListContents");
                 Timestamp creationDate = rs.getTimestamp("creationDate");
                 Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
-                return new ToDoListResponseDto(id, managerName, toDoListContents, creationDate, modifiedDate);
+                String password = rs.getString("password");
+                return new ToDoListResponseDto(id, managerName, toDoListContents, creationDate, modifiedDate,null);
             }
         });
     }
@@ -89,7 +91,8 @@ public class ToDoListRepository {
                 String toDoListContents = rs.getString("toDoListContents");
                 Timestamp creationDate = rs.getTimestamp("creationDate");
                 Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
-                return new ToDoListResponseDto(id, managerName, toDoListContents, creationDate, modifiedDate);
+                String password = rs.getString("password");
+                return new ToDoListResponseDto(id, managerName, toDoListContents, creationDate, modifiedDate,null);
             }
         });
     }
@@ -107,7 +110,8 @@ public class ToDoListRepository {
                 String toDoListContents = rs.getString("toDoListContents");
                 Timestamp creationDate = rs.getTimestamp("creationDate");
                 Timestamp modifiedDate = rs.getTimestamp("modifiedDate");
-                return new ToDoListResponseDto(id,managerName,toDoListContents,creationDate,modifiedDate);
+                String password = rs.getString("password");
+                return new ToDoListResponseDto(id,managerName,toDoListContents,creationDate,modifiedDate,null);
             }
         });
     }
@@ -117,7 +121,8 @@ public class ToDoListRepository {
         jdbcTemplate.update(sql,id);
     }
 
-    public ToDoList findById(int id) {
+    public ToDoList findById(ToDoListRequestDto requestDto) {
+        int id = requestDto.getId();
         String sql = "SELECT * FROM todo WHERE id = ?";
 
         return jdbcTemplate.query(sql,resultSet -> {
@@ -135,9 +140,10 @@ public class ToDoListRepository {
         },id);
     }
 
-    public ToDoList update(int id,String password, ToDoListRequestDto requestDto) {
+    public ToDoList update(ToDoListRequestDto requestDto) {
         Date now=Calendar.getInstance().getTime();
         String formatedNow=formatter.format(now);
+        int id = requestDto.getId();
         String sql = "UPDATE todo SET managerName = ?,toDoListContents = ?,modifiedDate = ? WHERE id =?";
         jdbcTemplate.update(sql,requestDto.getManagerName(),requestDto.getToDoListContents(),formatedNow,id);
 
@@ -156,7 +162,9 @@ public class ToDoListRepository {
             }
         },id);
     }
-    public ToDoList passwordVerify(int id,String password) {
+    public ToDoList passwordVerify(ToDoListRequestDto requestDto) {
+        int id = requestDto.getId();
+        String password = requestDto.getPassword();
         String sql="SELECT * FROM todo WHERE id = ? and password = ?";
 
         return jdbcTemplate.query(sql,resultSet -> {
