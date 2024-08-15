@@ -26,9 +26,9 @@ public class ToDoListController {
 
     }
     @GetMapping("/todolist/{id}")
-    public ToDoListResponseDto getToDoList(@PathVariable int id, ToDoListRequestDto requestDto) {
+    public ToDoListResponseDto getToDoList(@PathVariable int id) {
         //@PathVariable 애너테이션을 사용하면 /todolist/(id값) 이런식으로 url을 작성해야한다.
-        return toDoListService.getToDoList(id,requestDto);
+        return toDoListService.getToDoList(id);
     }
 
     @GetMapping("/todolist")

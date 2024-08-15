@@ -80,7 +80,7 @@ public class ToDoListService {
             throw new IllegalArgumentException("선택한 메모는 존재하지 않습니다.");
         }
     }
-    public ToDoListResponseDto getToDoList(int id,ToDoListRequestDto requestDto) {
+    public ToDoListResponseDto getToDoList(int id) {
         ToDoList toDoList = toDoListRepository.findById(id);
         if(toDoList !=null) {
             ToDoListResponseDto responseDto = new ToDoListResponseDto(toDoList);

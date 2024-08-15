@@ -43,7 +43,7 @@ public class ToDoListRepository {
 
         int id = keyHolder.getKey().intValue();
         toDoList.setId(id);
-
+        toDoList.setPassword(null);
         return toDoList;
     }
 
