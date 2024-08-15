@@ -156,5 +156,15 @@
 ERD 다이어그램
 ![image](https://github.com/user-attachments/assets/b1f1dc44-f06d-461b-9b4e-a4bb9acd976c)
 
+다이어그램 변경점 id(primary key) -> id(primary key,auto increment)
+
+todo->toDoListContents
+
+creationdate->creationDate
+
+modifydate->modifiedDate
+
+manager->managerName
+
 
 
